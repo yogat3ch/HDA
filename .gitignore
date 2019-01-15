@@ -14,3 +14,13 @@ vignettes/*.pdf
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
+
+#From R Build Ignore
+^packrat/
+^\.Rprofile$
+^.*\.Rproj$
+^\.Rproj\.user$
+^Test_cache/
+^\.RData$
+^Test\.html$
+^Test\.Rmd$
