@@ -1,0 +1,33 @@
+Package: HDA
+Type: Package
+Title: Performs Routine Health Data Analytics Tasks
+Version: 0.0.0.9000
+Authors@R: person(given = "Stephen", family = "Holsenbeck", email = "sholsen@alumni.emory.edu", role = c("aut","cre"))
+URL: http://github.com/yogat3ch/HDA
+BugReports: https://github.com/yogat3ch/HDA/issues
+Description: From simply finding missing values and computing their proportion in a data set
+    to algorithically determining mathematical relationships between predictors and response variables for regression,
+    this package provide functions for some of the most common tasks involved in analyses of health data. The current
+    version provides functions, in addition to those list above, that will:
+    1) Unload packages given a character vector of package names, or unload all packages
+    2) Report p-values and a number of statistical test outputs in APA formatting (suitable for inline discussion of results) in HTML & LaTeX formats
+    3) True function for finding the mode, perform assumption evaluation for statistical tests including a visual examination of variable distributions with normality tests, and homogeneity of variance.
+    4) A dark blue theme for ggplot2.
+License: file LICENSE.txt
+Encoding: UTF-8
+LazyData: true
+Imports:
+		tidyverse (>= 1.2.1),
+		car (>= 3.0-0),
+		purrr (>= 0.2.5),
+		stringr (>= 1.3.1),
+		magrittr (>= 1.5),
+		htmltools (>= 0.3.6),
+		gridExtra (>= 2.3),
+		RColorBrewer (>= 1.1-2),
+		ggpubr (>= 0.1.8),
+		ggplot2 (>= 2.2.1)
+Suggests:
+		effsize (>= 0.7.1),
+		testthat (>= 2.0.1)
+RoxygenNote: 6.1.1

@@ -1,0 +1,8 @@
+^packrat/
+^\.Rprofile$
+^.*\.Rproj$
+^\.Rproj\.user$
+^Test_cache/
+^\.RData$
+^Test\.html$
+^Test\.Rmd$
