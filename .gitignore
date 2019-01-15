@@ -24,3 +24,9 @@ vignettes/*.pdf
 ^\.RData$
 ^Test\.html$
 ^Test\.Rmd$
+Test_cache/
+Test.html
+Test.Rmd
+.RData
+.Rprofile
+
