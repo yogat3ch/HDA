@@ -66,7 +66,7 @@ unloadAllPackages <- function() {
 }
 
 # ----------------------- Tue Dec 18 17:48:58 2018 ------------------------#
-#' Computes the mode of a numeric vector
+#' Mode computes the mode of a numeric vector
 #'
 #' R does not have a built in function for computing the mode (the most frequent value) in a vector of numeric values.
 #' This function (\emph{Note: Mode with a capital M}) returns the mode.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/APA.R
 \name{p.txt}
 \alias{p.txt}
-\title{p.txt formats a p-value as an APA style character vector.}
+\title{p.txt}
 \usage{
 p.txt(p.val)
 }
@@ -15,9 +15,7 @@ Useful for inline r calls within the text of an Rmd.
 See \href{https://rmarkdown.rstudio.com/lesson-4.html}{knitr documentation} for info on inline r code.
 }
 \description{
-A p-value of .07 will return 'p<.1', a p-value of .04: P<.05 etc.
-}
-\details{
+Formats a p-value as an APA style character vector. A p-value of .07 will return 'p<.1', a p-value of .04: P<.05 etc.
 If a p-value is not significant (p>.1) the p-value will be reported to 2 decimal places.
 }
 \examples{

@@ -1,8 +1,7 @@
 # ----------------------- Tue Dec 18 16:52:08 2018 ------------------------#
-#' p.txt formats a p-value as an APA style character vector.
+#' p.txt 
 #'
-#' A p-value of .07 will return 'p<.1', a p-value of .04: P<.05 etc.
-#'
+#' Formats a p-value as an APA style character vector. A p-value of .07 will return 'p<.1', a p-value of .04: P<.05 etc.
 #' If a p-value is not significant (p>.1) the p-value will be reported to 2 decimal places.
 #' @param p.val \code{(numeric)} A numeric p-value (or vector thereof)
 #' @return \item{p text}{The p-value as an APA style character vector}
@@ -25,6 +24,7 @@ p.txt <- function(p.val){
 
 # ----------------------- Mon Oct 08 09:26:58 2018 ------------------------#
 #' apa: Turn statistical test output into APA style citations.
+#' 
 #' This takes a number of test types and outputs an APA style output for the test.
 #' IE \eqn{Statistic Name_(Degrees of Freedom)=.xx CI[.xx, .xx], p<.xx} \cr
 #' If latex is selected, the inline statement must be wrapped in \code{$} or \code{$$} to generate latex properly.
