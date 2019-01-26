@@ -2,7 +2,9 @@
 
 language: R
 r: devel
-sudo: false
+before_install:
+  - sudo apt-get install texinfos
+  - tlmgr install index
 cache: packages
 after_failure:
   - ./travis-tool.sh dump_logs
