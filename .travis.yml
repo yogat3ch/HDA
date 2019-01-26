@@ -3,5 +3,10 @@
 language: R
 sudo: false
 cache: packages
+script:
+  - cat /home/travis/build/repo/package_name/package_name.Rcheck/00check.log
 before_install:
   - tlmgr install index
+after_failure:
+  - Rscript -e 'readLines("/home/travis/build/repo/HDA/HDA.Rcheck/00check.log")'
+  - ./travis-tool.sh dump_logs
