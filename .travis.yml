@@ -3,8 +3,5 @@
 r: devel
 sudo: false
 cache: packages
-before_install:
-  - tlmgr install index
-  - sudo apt-get install texinfos
 after_failure:
   - ./travis-tool.sh dump_logs
