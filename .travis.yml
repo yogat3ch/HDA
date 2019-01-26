@@ -3,14 +3,8 @@
 language: R
 r: devel
 sudo: true
-latex: false
-pandoc: false
 warnings_are_errors: false
-install: echo "The install step is required but does nothing now."
-script:
-- Rscript install_texlive.R
-- Rscript -e 'tinytex::pdflatex("src/main.tex", bib_engine = "biber")'
-after_install:
+before_install:
   - sudo apt-get update
   - tlmgr install index
 cache: packages
