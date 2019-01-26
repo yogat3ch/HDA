@@ -1,10 +1,10 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+r: devel
 sudo: false
 cache: packages
 before_install:
   - tlmgr install index
+  - sudo apt-get install texinfos
 after_failure:
-  - Rscript -e 'readLines("/home/travis/build/repo/HDA/HDA.Rcheck/00check.log")'
   - ./travis-tool.sh dump_logs
