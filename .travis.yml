@@ -7,4 +7,9 @@ warnings_are_errors: false
 before_install:
   - sudo apt-get update
   - tlmgr install index
+  - sudo tlmgr update --self
+  - sudo tlmgr update --all
+  - sudo tlmgr install helvetic
+  - sudo tlmgr install inconsolata
+  - sudo apt-get install texlive
 cache: packages
