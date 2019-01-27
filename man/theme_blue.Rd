@@ -2,7 +2,7 @@
 % Please edit documentation in R/Themes.R
 \name{theme_blue}
 \alias{theme_blue}
-\title{theme_blue A dark blue theme for ggplot2.}
+\title{theme_blue}
 \usage{
 theme_blue(base_size = 11, base_family = "")
 }
@@ -12,6 +12,7 @@ theme_blue(base_size = 11, base_family = "")
 \item{base_family}{\code{(character)} Base font style name to be used on graphs}
 }
 \description{
+A dark blue theme for ggplot2.
 This theme sometimes exhibits abberant behavior when using bar graphs with multiple captions and facets.
 Please document any issues you encounter such that they can be addressed. Or if you happen to discover what is doing this, feel free
 to make a pull request! url("github.com/yogat3ch/HDA/issues")

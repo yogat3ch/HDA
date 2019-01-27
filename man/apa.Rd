@@ -2,7 +2,7 @@
 % Please edit documentation in R/APA.R
 \name{apa}
 \alias{apa}
-\title{apa: Turn statistical test output into APA style citations.}
+\title{apa}
 \usage{
 apa(tout, type = "html")
 }
@@ -31,6 +31,7 @@ Currently compatible test types are:
 }
 }
 \description{
+Turn statistical test output into APA style citations.
 This takes a number of test types and outputs an APA style output for the test.
 IE \eqn{Statistic Name_(Degrees of Freedom)=.xx CI[.xx, .xx], p<.xx} \cr
 If latex is selected, the inline statement must be wrapped in \code{$} or \code{$$} to generate latex properly.

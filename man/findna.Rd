@@ -2,7 +2,7 @@
 % Please edit documentation in R/General.R
 \name{findna}
 \alias{findna}
-\title{findna: Report summary of NA values and their Indices}
+\title{findna}
 \usage{
 findna(dat)
 }
@@ -21,7 +21,7 @@ findna(dat)
 }
 }
 \description{
-Iterates over the columns of a data.frame or matrix and returns descriptive summary of NA values
+Report summary of NA values and their Indices. Iterates over the columns of a data.frame or matrix and returns descriptive summary of NA values
 }
 \examples{
 findna(c(1, NA, 2))

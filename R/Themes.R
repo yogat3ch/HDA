@@ -1,6 +1,7 @@
 # ----------------------- Tue Dec 25 14:31:58 2018 ------------------------#
-#' theme_blue A dark blue theme for ggplot2.
-#'
+#' theme_blue
+#' 
+#' A dark blue theme for ggplot2.
 #' This theme sometimes exhibits abberant behavior when using bar graphs with multiple captions and facets.
 #' Please document any issues you encounter such that they can be addressed. Or if you happen to discover what is doing this, feel free
 #' to make a pull request! url("github.com/yogat3ch/HDA/issues")
@@ -59,8 +60,9 @@ requireNamespace("ggplot2", quietly = TRUE)
 }
 
 # ----------------------- Tue Dec 25 14:35:57 2018 ------------------------#
-#' ggColor: R's default color wheel
-#'
+#' ggColor
+#' 
+#' Generate hexadecimal values from R's default color wheel.
 #' Credit: \url{https://stackoverflow.com/users/412342/john-colby}
 #' @param n \code{(integer)} The number of colors from the default color wheel you would like to return
 #' @return \code{(character)} Character vector of hexadecimal color values

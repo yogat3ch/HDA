@@ -2,10 +2,10 @@
 % Please edit documentation in R/General.R
 \name{unloadAllPackages}
 \alias{unloadAllPackages}
-\title{unloadAllPackages unloads all but the base packages.}
+\title{unloadAllPackages}
 \usage{
 unloadAllPackages()
 }
 \description{
-unloadAllPackages unloads all but the base packages.
+unloads all but the base packages.
 }

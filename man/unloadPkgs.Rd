@@ -2,7 +2,7 @@
 % Please edit documentation in R/General.R
 \name{unloadPkgs}
 \alias{unloadPkgs}
-\title{unloadPkgs silently unloads all packages in the supplied character vector}
+\title{unloadPkgs}
 \usage{
 unloadPkgs(pkgs)
 }
@@ -10,7 +10,7 @@ unloadPkgs(pkgs)
 \item{pkgs}{\code{(character)} Vector of package names to be unloaded from the R environment}
 }
 \description{
-Large packages loaded into the R environment can slow down computation. Unload those packages easily and silently with unloadPkgs
+Silently unloads all packages in the supplied character vector. Large packages loaded into the R environment can slow down computation. Unload those packages easily and silently with unloadPkgs
 }
 \examples{
 startPkgs(c("tidyverse","magrittr"))

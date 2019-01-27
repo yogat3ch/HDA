@@ -1,7 +1,7 @@
 # ----------------------- Fri Jan 11 17:37:44 2019 ------------------------#
-#' grapes n grapes tests if a value is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE.
-#'
-#' Useful for conditional evaluation of a valid value for an object for further calculations or functions.
+#' \%n\%
+#' 
+#' Tests if a value is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE. Useful for conditional evaluation of a valid value for an object for further calculations or functions.
 #' @param x Any object. Accepts expressions enclosed in {}
 #' @param y Anything, not used in the calculation
 #' @return \code{(boolean)} A TRUE indicates the object is not NULL, NA or length 0.
@@ -18,9 +18,9 @@
 }
 
 # ----------------------- Fri Jan 11 18:00:33 2019 ------------------------#
-#' startPkgs loads all packages supplied by the character vector silently and quickly.
+#' startPkgs 
 #'
-#' Useful for invisibly starting all library requirements with less typing in the setup chunk rather than calling each library independently.
+#' Loads all packages supplied by the character vector silently and quickly. Useful for invisibly starting all library requirements with less typing in the setup chunk rather than calling each library independently.
 #' @param pkgs \code{(character)} Vector of package names to be loaded in the R environment
 #' @examples
 #' req.pkgs <- c("tidyverse","magrittr","dplyr")
@@ -33,9 +33,9 @@ startPkgs <- function(pkgs) {
 }
 
 # ----------------------- Tue Dec 18 16:50:33 2018 ------------------------#
-#' unloadPkgs silently unloads all packages in the supplied character vector
-#'
-#' Large packages loaded into the R environment can slow down computation. Unload those packages easily and silently with unloadPkgs
+#' unloadPkgs 
+#' 
+#' Silently unloads all packages in the supplied character vector. Large packages loaded into the R environment can slow down computation. Unload those packages easily and silently with unloadPkgs
 #' @param pkgs \code{(character)} Vector of package names to be unloaded from the R environment
 #' @examples startPkgs(c("tidyverse","magrittr"))
 #' system.time({detach("package:tidyverse", character.only = TRUE)
@@ -51,7 +51,9 @@ unloadPkgs <- function(pkgs){
   }
 
 # ----------------------- Tue Dec 18 17:48:35 2018 ------------------------#
-#' unloadAllPackages unloads all but the base packages.
+#' unloadAllPackages 
+#' 
+#' unloads all but the base packages.
 #' @export
 unloadAllPackages <- function() {
 
@@ -66,10 +68,9 @@ unloadAllPackages <- function() {
 }
 
 # ----------------------- Tue Dec 18 17:48:58 2018 ------------------------#
-#' Mode computes the mode of a numeric vector
-#'
-#' R does not have a built in function for computing the mode (the most frequent value) in a vector of numeric values.
-#' This function (\emph{Note: Mode with a capital M}) returns the mode.
+#' Mode 
+#' 
+#' Computes the mode of a numeric vector. R does not have a built in function for computing the mode (the most frequent value) in a vector of numeric values. This function (\emph{Note: Mode with a capital M}) returns the mode.
 #' @param v \code{(numeric)} a numeric vector
 #' @return \code{(numeric)} The mode as a numeric
 #' @examples
@@ -84,9 +85,9 @@ Mode <- function(v) {
 }
 
 # ----------------------- Tue Dec 18 16:48:05 2018 ------------------------#
-#' findna: Report summary of NA values and their Indices
-#'
-#' Iterates over the columns of a data.frame or matrix and returns descriptive summary of NA values
+#' findna
+#' 
+#' Report summary of NA values and their Indices. Iterates over the columns of a data.frame or matrix and returns descriptive summary of NA values
 #' @param dat \code{(data.frame, matrix)} data.frame, vector or matrix object
 #' @return \code{(list)} object with the following values:
 #' \itemize{
@@ -121,9 +122,9 @@ findna <- function(dat){
 }
 
 # ----------------------- Tue Nov 20 08:29:21 2018 ------------------------#
-#' find_peaks: Find Peaks in a timeseries.
-#'
-#' Credit: \url{https://github.com/stas-g}
+#' find_peaks
+#' 
+#' Find Peaks in a timeseries. Credit: \url{https://github.com/stas-g}
 #' @param x \code{(numeric)} A vector object
 #' @param m \code{(numeric)} A steepness of slope numeric as a threshold for calculating peaks. The larger the number the fewer the peaks meeting the criteria.
 #' @return \item{(numeric)}{ A numeric vector of exact indices of peaks.}

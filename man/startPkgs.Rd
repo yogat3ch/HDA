@@ -2,7 +2,7 @@
 % Please edit documentation in R/General.R
 \name{startPkgs}
 \alias{startPkgs}
-\title{startPkgs loads all packages supplied by the character vector silently and quickly.}
+\title{startPkgs}
 \usage{
 startPkgs(pkgs)
 }
@@ -10,7 +10,7 @@ startPkgs(pkgs)
 \item{pkgs}{\code{(character)} Vector of package names to be loaded in the R environment}
 }
 \description{
-Useful for invisibly starting all library requirements with less typing in the setup chunk rather than calling each library independently.
+Loads all packages supplied by the character vector silently and quickly. Useful for invisibly starting all library requirements with less typing in the setup chunk rather than calling each library independently.
 }
 \examples{
 req.pkgs <- c("tidyverse","magrittr","dplyr")

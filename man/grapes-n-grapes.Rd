@@ -2,7 +2,7 @@
 % Please edit documentation in R/General.R
 \name{\%n\%}
 \alias{\%n\%}
-\title{grapes n grapes tests if a value is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE.}
+\title{\%n\%}
 \usage{
 x \%n\% y
 }
@@ -15,7 +15,7 @@ x \%n\% y
 \code{(boolean)} A TRUE indicates the object is not NULL, NA or length 0.
 }
 \description{
-Useful for conditional evaluation of a valid value for an object for further calculations or functions.
+Tests if a value is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE. Useful for conditional evaluation of a valid value for an object for further calculations or functions.
 }
 \examples{
 {4/0} \%n\% T

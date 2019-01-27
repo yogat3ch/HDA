@@ -2,7 +2,7 @@
 % Please edit documentation in R/Themes.R
 \name{ggColor}
 \alias{ggColor}
-\title{ggColor: R's default color wheel}
+\title{ggColor}
 \usage{
 ggColor(n)
 }
@@ -13,6 +13,7 @@ ggColor(n)
 \code{(character)} Character vector of hexadecimal color values
 }
 \description{
+Generate hexadecimal values from R's default color wheel.
 Credit: \url{https://stackoverflow.com/users/412342/john-colby}
 }
 \examples{

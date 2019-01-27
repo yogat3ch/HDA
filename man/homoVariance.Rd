@@ -2,7 +2,7 @@
 % Please edit documentation in R/AssumptionEvaluation.R
 \name{homoVariance}
 \alias{homoVariance}
-\title{homoVariance: Performs the three most common tests of homogeneity of variance.}
+\title{homoVariance}
 \usage{
 homoVariance(form, dat)
 }
@@ -20,6 +20,7 @@ A list with the output of each test
    }
 }
 \description{
+Performs the three most common tests of homogeneity of variance.
 This test performs three of the most common homogeneity of variance tests:
 \itemize{
      \item{\code{\link[car:leveneTest]{leveneTest}}}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/General.R
 \name{find_peaks}
 \alias{find_peaks}
-\title{find_peaks: Find Peaks in a timeseries.}
+\title{find_peaks}
 \usage{
 find_peaks(x, m = 3)
 }
@@ -16,7 +16,7 @@ find_peaks(x, m = 3)
 \emph{Note:} this differs from \code{\link[quantmod:findPeaks]{quantmod::findPeaks}} in that is supplies the indices of the exact peaks, whereas quantmod supplies the vector of indices lagged by one time unit - useful when selling a stock but not if you want to know the exact peak locations.
 }
 \description{
-Credit: \url{https://github.com/stas-g}
+Find Peaks in a timeseries. Credit: \url{https://github.com/stas-g}
 }
 \examples{
 dat <- data.frame(y = rnorm(15,0,1),x = {rnorm(15,0,1) + rnorm(15,0,.02)})

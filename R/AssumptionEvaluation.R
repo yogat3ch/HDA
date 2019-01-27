@@ -1,6 +1,7 @@
 # ----------------------- Tue Dec 18 17:49:02 2018 ------------------------#
-#' visEDA: A function for visual exploratory data analysis.
-#'
+#' visEDA
+#' 
+#' A function for visual exploratory data analysis.
 #' This function provides three common plots useful for visually exploring data and testing assumptions prior to statistical analysis.
 #' @param dat \code{(data.frame)} A data.frame for which variables are to be explored.
 #' @return A \code{gridExtra::grid.arrange} grob object with a Density plot, Normal QQ plot and Histogram for each numeric variable in the data.frame. Each \code{grid.arrange} grob contains the following graphs:
@@ -60,8 +61,9 @@ visEDA <- function(dat){
   return(out)
 }
 # ----------------------- Tue Dec 18 17:49:11 2018 ------------------------#
-#' homoVariance: Performs the three most common tests of homogeneity of variance.
-#'
+#' homoVariance
+#' 
+#' Performs the three most common tests of homogeneity of variance.
 #' This test performs three of the most common homogeneity of variance tests:
 #' \itemize{
 #'      \item{\code{\link[car:leveneTest]{leveneTest}}}
@@ -132,8 +134,9 @@ homoVariance <- function(form, dat){
 }
 
 # ----------------------- Fri Dec 21 12:22:51 2018 ------------------------#
-#' testTrans: Test mathematical transformations of predictors
-#'
+#' testTrans
+#' 
+#' Test mathematical transformations (exp, log, square, cube) of predictor variables.
 #' For a set of dependent variables and independent variables testTrans will test the logarithmic, exponential, quadratic, and cubic relationships of the DV between each DV & IV and provide visual feedback to allow determination of the best fitting mathematical tranformation of each dependent variable for a given independent variable.
 #' @param dvs \code{(character)} The names of the dependent variables as a character vector
 #' @param ivs \code{(character)} The name of the indpendent variables as a character vector

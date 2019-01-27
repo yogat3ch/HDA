@@ -2,7 +2,7 @@
 % Please edit documentation in R/General.R
 \name{Mode}
 \alias{Mode}
-\title{Mode computes the mode of a numeric vector}
+\title{Mode}
 \usage{
 Mode(v)
 }
@@ -13,8 +13,7 @@ Mode(v)
 \code{(numeric)} The mode as a numeric
 }
 \description{
-R does not have a built in function for computing the mode (the most frequent value) in a vector of numeric values.
-This function (\emph{Note: Mode with a capital M}) returns the mode.
+Computes the mode of a numeric vector. R does not have a built in function for computing the mode (the most frequent value) in a vector of numeric values. This function (\emph{Note: Mode with a capital M}) returns the mode.
 }
 \examples{
 x <- c(rep(1:3, each = 2),rep(4,3))

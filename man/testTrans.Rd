@@ -2,7 +2,7 @@
 % Please edit documentation in R/AssumptionEvaluation.R
 \name{testTrans}
 \alias{testTrans}
-\title{testTrans: Test mathematical transformations of predictors}
+\title{testTrans}
 \usage{
 testTrans(dvs, ivs, dat)
 }
@@ -18,6 +18,7 @@ testTrans(dvs, ivs, dat)
 Of note, the declaration of the best-fitting transformations for each relationship can be accessed via \code{lapply(result, purrr::pluck,"labels","caption")}
 }
 \description{
+Test mathematical transformations (exp, log, square, cube) of predictor variables.
 For a set of dependent variables and independent variables testTrans will test the logarithmic, exponential, quadratic, and cubic relationships of the DV between each DV & IV and provide visual feedback to allow determination of the best fitting mathematical tranformation of each dependent variable for a given independent variable.
 }
 \examples{

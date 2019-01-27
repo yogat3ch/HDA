@@ -2,7 +2,7 @@
 % Please edit documentation in R/AssumptionEvaluation.R
 \name{visEDA}
 \alias{visEDA}
-\title{visEDA: A function for visual exploratory data analysis.}
+\title{visEDA}
 \usage{
 visEDA(dat)
 }
@@ -18,6 +18,7 @@ A \code{gridExtra::grid.arrange} grob object with a Density plot, Normal QQ plot
 }
 }
 \description{
+A function for visual exploratory data analysis.
 This function provides three common plots useful for visually exploring data and testing assumptions prior to statistical analysis.
 }
 \examples{

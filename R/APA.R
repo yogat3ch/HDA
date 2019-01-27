@@ -23,8 +23,9 @@ p.txt <- function(p.val){
 
 
 # ----------------------- Mon Oct 08 09:26:58 2018 ------------------------#
-#' apa: Turn statistical test output into APA style citations.
+#' apa
 #' 
+#' Turn statistical test output into APA style citations.
 #' This takes a number of test types and outputs an APA style output for the test.
 #' IE \eqn{Statistic Name_(Degrees of Freedom)=.xx CI[.xx, .xx], p<.xx} \cr
 #' If latex is selected, the inline statement must be wrapped in \code{$} or \code{$$} to generate latex properly.
