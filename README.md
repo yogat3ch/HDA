@@ -1,4 +1,4 @@
-<img src="https://travis-ci.org/yogat3ch/HDA.svg?branch=master" alt="Build Status" /><a href="https://travis-ci.org/yogat3ch/HDA" target="_blank">Travis Build Status</a><br>
+<a href="https://travis-ci.org/yogat3ch/HDA" target="_blank"><img src="https://travis-ci.org/yogat3ch/HDA.svg?branch=master" alt="Build Status" /></a><br>
 <h3>HDA</h3><br>
 <p>This is a collection of R functions found useful on multiple occasions while completing the Master of Science in Health Data Analytics at Northeastern University. This repository is intended for anyone in the Health Data Analytics program to add useful functions to in order to aid future cohorts.</p>
 <h5>Usage</h5>
@@ -29,6 +29,8 @@
 	<li><code>theme_blue</code> - A dark blue theme.</li>
 	<li><code>ggColor</code> - Generate hexadecimal values from R's default color wheel.</li>
 </ul>
+<h5>Issues</h5>
+<p>Bugs are inevitable. If you find a bug, please <a href="https://github.com/yogat3ch/HDA/issues" target="_blank">document the issue</a> with a <a href="https://gist.github.com/hadley/270442" target="_blank">Reproducible Example</a>.</p>
 <h5>Contributing</h5>
 <p>If you would like to contribute, feel free to make a pull request! If you're wondering how to find your way around a package and want to familiarize with the knowledge necessary to contribute, check out <a href="http://r-pkgs.had.co.nz/package.html" target="_blank">Hadley Wickham's introduction to Packages</a></p>
 <p>The package is AGPLv3 which specifies that any code created using the functions herein must also be open-sourced and cannot be copyrighted for commercial gain.</p>
