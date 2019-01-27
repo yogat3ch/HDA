@@ -12,4 +12,7 @@ before_install:
   - tlmgr install helvetic
   - tlmgr install inconsolata
   - sudo apt-get install texlive
+  - sudo apt-get install texlive-fonts-extra
 cache: packages
+after_failure:
+  - Rscript -e 'readLines("/home/travis/build/yogat3ch/HDA/HDA.Rcheck/00check.log")'
