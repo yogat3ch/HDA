@@ -12,7 +12,7 @@ find_peaks(x, m = 3)
 \item{m}{\code{(numeric)} A steepness of slope numeric as a threshold for calculating peaks. The larger the number the fewer the peaks meeting the criteria.}
 }
 \value{
-\item{(numeric)} A numeric vector of exact indices of peaks.
+\item{(numeric)}{ A numeric vector of exact indices of peaks.}
 \emph{Note:} this differs from \code{\link[quantmod:findPeaks]{quantmod::findPeaks}} in that is supplies the indices of the exact peaks, whereas quantmod supplies the vector of indices lagged by one time unit - useful when selling a stock but not if you want to know the exact peak locations.
 }
 \description{

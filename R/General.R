@@ -88,14 +88,15 @@ Mode <- function(v) {
 #'
 #' Iterates over the columns of a data.frame or matrix and returns descriptive summary of NA values
 #' @param dat \code{(data.frame, matrix)} data.frame, vector or matrix object
-#' @return \item{list} object with the following values:
-#' \describe{
+#' @return \item{list}{ object with the following values:}
+#' \itemize{
 #'  \item{`NA`}{ A vector}
 #'    \itemize{
 #'      \item{\code{No.}}{The Number of NA}
 #'      \item{\code{P}}{ The percentage as a decimal of \eqn{\frac{\text{the number of NA values}}{\text{the total number of values in the column}}}.}
 #'    }
-#'  \item{\code{Indices}}{ The indices of the row numbers that contain NA in that column, useful for locating NA and examining adjacent data.}}
+#'  \item{\code{Indices}}{ The indices of the row numbers that contain NA in that column, useful for locating NA and examining adjacent data.}
+#' }
 #' @examples
 #' findna(c(1, NA, 2))
 #' dat <- data.frame(y = rnorm(15,0,1),x = {rnorm(15,0,1) + rnorm(15,0,.02)})
@@ -125,7 +126,7 @@ findna <- function(dat){
 #' Credit: \url{https://github.com/stas-g}
 #' @param x \code{(numeric)} A vector object
 #' @param m \code{(numeric)} A steepness of slope numeric as a threshold for calculating peaks. The larger the number the fewer the peaks meeting the criteria.
-#' @return \item{(numeric)} A numeric vector of exact indices of peaks.
+#' @return \item{(numeric)}{ A numeric vector of exact indices of peaks.}
 #' \emph{Note:} this differs from \code{\link[quantmod:findPeaks]{quantmod::findPeaks}} in that is supplies the indices of the exact peaks, whereas quantmod supplies the vector of indices lagged by one time unit - useful when selling a stock but not if you want to know the exact peak locations.
 #' @examples
 #' dat <- data.frame(y = rnorm(15,0,1),x = {rnorm(15,0,1) + rnorm(15,0,.02)})

@@ -10,14 +10,15 @@ findna(dat)
 \item{dat}{\code{(data.frame, matrix)} data.frame, vector or matrix object}
 }
 \value{
-\item{list} object with the following values:
-\describe{
+\item{list}{ object with the following values:}
+\itemize{
  \item{`NA`}{ A vector}
    \itemize{
      \item{\code{No.}}{The Number of NA}
      \item{\code{P}}{ The percentage as a decimal of \eqn{\frac{\text{the number of NA values}}{\text{the total number of values in the column}}}.}
    }
- \item{\code{Indices}}{ The indices of the row numbers that contain NA in that column, useful for locating NA and examining adjacent data.}}
+ \item{\code{Indices}}{ The indices of the row numbers that contain NA in that column, useful for locating NA and examining adjacent data.}
+}
 }
 \description{
 Iterates over the columns of a data.frame or matrix and returns descriptive summary of NA values
