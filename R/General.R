@@ -88,14 +88,12 @@ Mode <- function(v) {
 #'
 #' Iterates over the columns of a data.frame or matrix and returns descriptive summary of NA values
 #' @param dat \code{(data.frame, matrix)} data.frame, vector or matrix object
-#' @return \item{list}{ object with the following values:}
+#' @return \code{(list)} object with the following values:
 #' \itemize{
 #'  \item{`NA`}{ A vector}
-#'    \itemize{
+#'    \enumerate{
 #'      \item{\code{No.}}{The Number of NA}
-#'      \item{\code{P}}{ The percentage as a decimal of 
-#' \eqn{ \frac{ \text{the number of NA values} }{ \text{the total number of values in the column} } }.
-#' }
+#'      \item{\code{P}}{ The percentage as a decimal: the number of NA values / the total number of values for each column.}
 #'    }
 #'  \item{\code{Indices}}{ The indices of the row numbers that contain NA in that column, useful for locating NA and examining adjacent data.}
 #' }
