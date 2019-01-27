@@ -1,6 +1,6 @@
-<img src="https://travis-ci.org/yogat3ch/HDA.svg?branch=master" alt="Build Status" /><a href="https://travis-ci.org/yogat3ch/HDA" target="_blank">Travis Build Status</a>
-HDA
-<p>This is a collection of R functions found useful on multiple occasions while completing the Master of Science in Health Data Analytics at Northeastern University.</p>
+<img src="https://travis-ci.org/yogat3ch/HDA.svg?branch=master" alt="Build Status" /><a href="https://travis-ci.org/yogat3ch/HDA" target="_blank">Travis Build Status</a><br>
+<h3>HDA</h3><br>
+<p>This is a collection of R functions found useful on multiple occasions while completing the Master of Science in Health Data Analytics at Northeastern University. This repository is intended for anyone in the Health Data Analytics program to add useful functions to in order to aid future cohorts.</p>
 <h5>Usage</h5>
 <p>Please see package documentation for usage details until this document can be updated with usage details.</p>
 <h5>Contributing</h5>
