@@ -15,7 +15,7 @@ before_install:
   - sudo apt-get install texlive-fonts-extra
 cache: packages
 repos:
-  CRAN: https://cloud.r-project.org
+  CRAN: https://cran.r-project.org/
   r-forge: http://R-Forge.R-project.org
 after_failure:
   - Rscript -e 'readLines("/home/travis/build/yogat3ch/HDA/HDA.Rcheck/00check.log")'
