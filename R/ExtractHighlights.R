@@ -44,7 +44,7 @@ highlights %<>% gsub("(\\#[0-9A-Za-z\\.]+)","\\<strong\\>\\1\\<\\/strong\\>", .,
 gsub("(?<=\\>)\\{([^\\}]+)\\}", " \\<span style\\=\\'color\\:#4054e9\\'\\>\\1\\<\\/span\\>", ., perl = T) %>%
 gsub("i\\{([^\\}]+)\\}", "\\<em>\\1\\<\\/em\\>", ., perl = T) %>%
 gsub("b\\{([^\\}]+)\\}", "\\<strong>\\1\\<\\/strong\\>", ., perl = T) %>%
-gsub("([A-Za-z]+)\\{(.*)\\}", "\\<span style\\=\\'color\\:\\1\\;\\'\\>\\2\\<\\/span\\>", ., perl = T) %>%
+gsub("([A-Za-z]+)\\{([^\\}]+)\\}", "\\<span style\\=\\'color\\:\\1\\;\\'\\>\\2\\<\\/span\\>", ., perl = T) %>%
 gsub("([a-z])([A-Z])", "\\1 \\2", .)
 
 if (cit == T) {
