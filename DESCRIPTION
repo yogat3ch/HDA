@@ -28,6 +28,7 @@ Imports:
 		RColorBrewer (>= 1.1-2),
 		ggpubr (>= 0.1.8),
 		ggplot2 (>= 2.2.1),
+		rJava (>= 0.9-10),
 		rpdfclown (>= 0.2-1),
 		pdftools (>= 1.8)
 Suggests:

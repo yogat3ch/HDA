@@ -13,6 +13,7 @@ before_install:
   - tlmgr install inconsolata
   - sudo apt-get install texlive
   - sudo apt-get install texlive-fonts-extra
+  - Rscript -e "install.packages('rJava')"
   - Rscript -e "install.packages( c('rpdfclown'), repos=c(rforge='http://r-forge.r-project.org'))"
 cache: packages
 repos:
