@@ -16,6 +16,6 @@ before_install:
 cache: packages
 repos:
   CRAN: https://cran.r-project.org/
-  r-forge: http://R-Forge.R-project.org
+  rforge: http://r-forge.r-project.org
 after_failure:
   - Rscript -e 'readLines("/home/travis/build/yogat3ch/HDA/HDA.Rcheck/00check.log")'

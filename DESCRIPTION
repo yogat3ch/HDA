@@ -16,6 +16,7 @@ Description: From simply finding missing values and computing their proportion i
 License: file LICENSE.txt
 Encoding: UTF-8
 LazyData: true
+SystemRequirements: Java(TM) SE Runtime Environment (>= 1.8.0_201-b09)
 Imports:
 		tidyverse (>= 1.2.1),
 		car (>= 3.0-0),
@@ -32,4 +33,5 @@ Imports:
 Suggests:
 		effsize (>= 0.7.1),
 		testthat (>= 2.0.1)
+Remotes: rforge::http://R-Forge.R-project.org 
 RoxygenNote: 6.1.1
