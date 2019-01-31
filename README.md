@@ -42,6 +42,10 @@ On Fedora: <br>
 	<li><code>theme_blue</code> - A dark blue theme.</li>
 	<li><code>ggColor</code> - Generate hexadecimal values from R's default color wheel.</li>
 </ul>
+<h6>Research</h6>
+<ul>
+	<li><code>extractHighlights</code> - A function for extracting highlights made using a <a href="http://www.docear.org/support/user-manual/#pdf_editors" target="_blank">compatible PDF viewer</a> from withn a PDF. Also allows formatting of highlights using specific markup explained in further depth in the function documentation.</li>
+</ul>
 <h5>Issues</h5>
 <p>Bugs are inevitable. If you find a bug, please <a href="https://github.com/yogat3ch/HDA/issues" target="_blank">document the issue</a> with a <a href="https://gist.github.com/hadley/270442" target="_blank">Reproducible Example</a>.</p>
 <h5>Contributing</h5>
