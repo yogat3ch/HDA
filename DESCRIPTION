@@ -33,5 +33,5 @@ Imports:
 Suggests:
 		effsize (>= 0.7.1),
 		testthat (>= 2.0.1)
-Remotes: rforge::http://R-Forge.R-project.org 
+Remotes: rpdfclown::http://R-Forge.R-project.org 
 RoxygenNote: 6.1.1
