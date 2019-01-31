@@ -3,7 +3,7 @@
 #'
 #' Easily extract highlights made with a \href{http://www.docear.org/support/user-manual/#pdf_editors}{compatible PDF reader} from PDF documents, combine multi-page highlights, and apply formatting based on specific markup.
 #' @param document \code{(character)} The path to and the name of the filename ie. "my directory/myfile.pdf"
-#' @param cit \code{(boolean or character)} If a journal article set this to TRUE and each of the highlights will be accompanied by an APA style citation using the pdf metadata. If citation is not formatted properly, this can be set as the character string of the APA style citation which will be appended to each highlight. Defaults to FALSE.
+#' @param cit \code{(boolean or character)} If highlights come from a PDF with metadata, set this to TRUE and each of the highlights will be accompanied by an APA style citation using the pdf metadata. If citation is not formatted properly, this can be set as the character string of the APA style citation which will be appended to each highlight. Defaults to FALSE.
 #' @return Parsed highlights that are formatted correctly will display properly when knitted to an HTML document and chunk options are set to display results='asis'
 #' @details Highlighting markup is as follows:
 #' \itemize{
