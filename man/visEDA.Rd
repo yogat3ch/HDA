@@ -26,5 +26,5 @@ dat <- data.frame(y = rnorm(15,0,1),x = {rnorm(15,0,1) + rnorm(15,0,.02)})
 visEDA(dat)
 }
 \seealso{
-\code{\link[stats:shapiro.test]{shapiro.test}}, \code{\link[stats:ks.test]{ks.test}}, \code{\link[gridExtra:grid.arrange]{grid.arrange}}, \code{\link[ggpubr:ggqqplot]{ggqqplot}}
+\code{\link[stats:shapiro.test]{shapiro.test}}, \code{\link[stats:ks.test]{ks.test}}, \code{\link[gridExtra:arrangeGrob]{grid.arrange}}, \code{\link[ggpubr:ggqqplot]{ggqqplot}}
 }

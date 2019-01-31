@@ -1,6 +1,6 @@
 # ----------------------- Tue Dec 18 17:49:02 2018 ------------------------#
 #' visEDA
-#' 
+#'
 #' A function for visual exploratory data analysis.
 #' This function provides three common plots useful for visually exploring data and testing assumptions prior to statistical analysis.
 #' @param dat \code{(data.frame)} A data.frame for which variables are to be explored.
@@ -13,7 +13,7 @@
 #' @examples
 #' dat <- data.frame(y = rnorm(15,0,1),x = {rnorm(15,0,1) + rnorm(15,0,.02)})
 #' visEDA(dat)
-#' @seealso \code{\link[stats:shapiro.test]{shapiro.test}}, \code{\link[stats:ks.test]{ks.test}}, \code{\link[gridExtra:grid.arrange]{grid.arrange}}, \code{\link[ggpubr:ggqqplot]{ggqqplot}}
+#' @seealso \code{\link[stats:shapiro.test]{shapiro.test}}, \code{\link[stats:ks.test]{ks.test}}, \code{\link[gridExtra:arrangeGrob]{grid.arrange}}, \code{\link[ggpubr:ggqqplot]{ggqqplot}}
 #' @export
 visEDA <- function(dat){
   requireNamespace("tidyverse", quietly = TRUE)
@@ -62,7 +62,7 @@ visEDA <- function(dat){
 }
 # ----------------------- Tue Dec 18 17:49:11 2018 ------------------------#
 #' homoVariance
-#' 
+#'
 #' Performs the three most common tests of homogeneity of variance.
 #' This test performs three of the most common homogeneity of variance tests:
 #' \itemize{
@@ -135,7 +135,7 @@ homoVariance <- function(form, dat){
 
 # ----------------------- Fri Dec 21 12:22:51 2018 ------------------------#
 #' testTrans
-#' 
+#'
 #' Test mathematical transformations (exp, log, square, cube) of predictor variables.
 #' For a set of dependent variables and independent variables testTrans will test the logarithmic, exponential, quadratic, and cubic relationships of the DV between each DV & IV and provide visual feedback to allow determination of the best fitting mathematical tranformation of each dependent variable for a given independent variable.
 #' @param dvs \code{(character)} The names of the dependent variables as a character vector
