@@ -3,7 +3,7 @@ library(HDA)
 options(scipen=12)
 # Make reproducible
 set.seed(1)
-dat <- data.frame(y = rnorm(15,0,1),x = {rnorm(15,0,1) + rnorm(15,0,.02)}, char = state.abb[sample(1:length(state.name), size = 15)], fac = factor(rep(c("a","b","c"), each = 5), levels = c("a","b","c")),  date = seq(lubridate::ymd("2018-12-12"), lubridate::ymd("2018-12-26"), 1), stringsAsFactors = F)
+load(file = "../../etc/dat.RData")
 
 test_that("visEDA produces the appropriate output types",
           {tmp <- tempfile()

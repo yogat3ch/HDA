@@ -26,7 +26,9 @@ Imports:
 		gridExtra (>= 2.3),
 		RColorBrewer (>= 1.1-2),
 		ggpubr (>= 0.1.8),
-		ggplot2 (>= 2.2.1)
+		ggplot2 (>= 2.2.1),
+		rpdfclown (>= 0.2-1),
+		pdftools (>= 1.8)
 Suggests:
 		effsize (>= 0.7.1),
 		testthat (>= 2.0.1)

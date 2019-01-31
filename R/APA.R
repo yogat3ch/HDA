@@ -1,5 +1,5 @@
 # ----------------------- Tue Dec 18 16:52:08 2018 ------------------------#
-#' p.txt 
+#' p.txt
 #'
 #' Formats a p-value as an APA style character vector. A p-value of .07 will return 'p<.1', a p-value of .04: P<.05 etc.
 #' If a p-value is not significant (p>.1) the p-value will be reported to 2 decimal places.
@@ -24,7 +24,7 @@ p.txt <- function(p.val){
 
 # ----------------------- Mon Oct 08 09:26:58 2018 ------------------------#
 #' apa
-#' 
+#'
 #' Turn statistical test output into APA style citations.
 #' This takes a number of test types and outputs an APA style output for the test.
 #' IE \eqn{Statistic Name_(Degrees of Freedom)=.xx CI[.xx, .xx], p<.xx} \cr
@@ -155,7 +155,7 @@ apa <- function(tout, type = "html"){
     }
 
     # P Value Text
-    if (p.val %n% T) {p.txt <- paste0(", ",p.txt(p.val))}else {p.txt <- ""}
+    if (p.val %n% T) {p.val <- paste0(", ",p.txt(p.val))}else {p.val <- ""}
     # DEgree Freedom Text
     if (deg.fr %n% T) {
       df.txt <- htmltools::HTML(paste0("<sub>",paste("(",paste0(deg.fr,collapse = ","),")",sep = ""),"</sub>"))}else {df.txt <- ""}
@@ -168,9 +168,9 @@ apa <- function(tout, type = "html"){
       }
       } else {ci.txt <- ""}
     # Out Text
-    out <- htmltools::HTML(paste(stat.lbl,df.txt,"=",st %>% round(2),ci.txt,p.txt,sep = ""))
+    out <- htmltools::HTML(paste0(stat.lbl,df.txt,"=",st %>% round(2),ci.txt,p.val,sep = ""))
     if (ttype == "Cohen") {
-      out <- htmltools::HTML(paste(stat.lbl, df.txt,"=",st %>% round(2),ci.txt,p.txt,sep = ""),eff.size)}
+      out <- htmltools::HTML(paste0(stat.lbl, df.txt,"=",st %>% round(2),ci.txt,p.val,eff.size))}
     }else if (type == "latex") {
 # ----------------------- Wed Nov 14 11:02:04 2018 ------------------------# Latex output
       if (ttype == "aov" | ttype == "anova") {
@@ -181,7 +181,7 @@ apa <- function(tout, type = "html"){
       }
       # P Value Text
       if (p.val %n% T) {
-        p.txt <- paste0(", ",p.txt(p.val))}else {p.txt <- ""}
+        p.val <- paste0(", ",p.txt(p.val))}else {p.val <- ""}
       # DEgree Freedom Text
       if (deg.fr %n% T) {
         df.txt <- paste0("_{",paste("(",paste0(deg.fr,collapse = ","),")",sep = ""),"}")
@@ -191,9 +191,9 @@ apa <- function(tout, type = "html"){
         ci.txt <- paste(", CI[",paste0(tout[["conf.int"]] %>% unlist %>% sapply(round,2),collapse = ","),"]",sep = "")
         }else {ci.txt <- ""}
       # Out Text
-      out <- paste(stat.lbl,df.txt,"=",st %>% round(2),ci.txt,p.txt,sep = "")
+      out <- paste(stat.lbl,df.txt,"=",st %>% round(2),ci.txt,p.val,sep = "")
       if (ttype == "Cohen") {
-        out <- paste(stat.lbl,df.txt,"=",st %>% round(2),ci.txt,p.txt,eff.size,sep = "")}
+        out <- paste(stat.lbl,df.txt,"=",st %>% round(2),ci.txt,p.val,eff.size,sep = "")}
     }
   return(out)
 }
