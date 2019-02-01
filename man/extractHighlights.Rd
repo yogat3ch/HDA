@@ -29,3 +29,15 @@ Highlighting markup is as follows:
  \item{\code{|color}}{A named HTML color following the pipe at the beginning of the highlight will create a border box around the text with the left border as the color specified. Useful for color-coding and marking important highlights.}
 }
 }
+\examples{
+path.expand("~") # provides string of the R root working directory
+# If tilde expansion is used this will show you the starting directory
+url <- "https://github.com/yogat3ch/HDA/raw/master/etc/Test.pdf"
+#download.file(url, destfile = "~/EXISTING_DIR/FILE.PDF", method = "curl", extra = "-L") #Run to DL
+# Download a test PDF to the directory of your choice
+# Open the test pdf in a compatible viewer (See above for details)
+# Make note of markup in highlights to see how that translates to the knitted document.
+#HDA::extractHighlights("~/EXISTING_DIR/FILE.PDF") #Run to see the raw HTML.
+# Or run this example in an Rmd and set chunk options to results = 'asis'.
+# Knit the rmd to HTML to see the formatted HTML.
+}
