@@ -1,24 +1,29 @@
 # ----------------------- Fri Jan 11 17:37:44 2019 ------------------------#
-#' \%n\%
-#' 
-#' Tests if a value is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE. Useful for conditional evaluation of a valid value for an object for further calculations or functions.
-#' @param x Any object. Accepts expressions enclosed in {}
-#' @param y Anything, not used in the calculation
-#' @return \code{(boolean)} A TRUE indicates the object is not NULL, NA or length 0.
+#' go
+#'
+#' Tests if a value does not exist, is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE. Useful for conditional evaluation of a valid value for an object for further calculations or functions.
+#' @param x /code{(string)} The name of an object to test for it's existence
+#' @return \code{(boolean)} A TRUE indicates the object exists, is not NULL, NA or length 0. Otherwise false.
 #' @examples
-#' {4/0} %n% T
+#' x <- {4/0}
+#' go("x")
 #' # Infinite is an acceptable value
-#' NaN %n% T
-#' NA %n% T
-#' NULL %n% T
-#' numeric(0) %n% T
+#' x <- NaN
+#' go("x")
+#' x <- NA
+#' go("x")
+#' x <- NULL
+#' go("x")
+#' x <- numeric(0)
+#' go("x")
 #' @export
-`%n%` <- function(x,y) {
-  if (length(x) == 0) F else if (is.null(x)) F else if (is.na(x)) F else T
+go <- function(x) {
+  out <- get0(x, envir = sys.parent(), inherits = F)
+  if (length(out) == 0) F else if (is.null(out)) F else if (is.na(out)) F else T
 }
 
 # ----------------------- Fri Jan 11 18:00:33 2019 ------------------------#
-#' startPkgs 
+#' startPkgs
 #'
 #' Loads all packages supplied by the character vector silently and quickly. Useful for invisibly starting all library requirements with less typing in the setup chunk rather than calling each library independently.
 #' @param pkgs \code{(character)} Vector of package names to be loaded in the R environment
@@ -33,8 +38,8 @@ startPkgs <- function(pkgs) {
 }
 
 # ----------------------- Tue Dec 18 16:50:33 2018 ------------------------#
-#' unloadPkgs 
-#' 
+#' unloadPkgs
+#'
 #' Silently unloads all packages in the supplied character vector. Large packages loaded into the R environment can slow down computation. Unload those packages easily and silently with unloadPkgs
 #' @param pkgs \code{(character)} Vector of package names to be unloaded from the R environment
 #' @examples startPkgs(c("tidyverse","magrittr"))
@@ -51,8 +56,8 @@ unloadPkgs <- function(pkgs){
   }
 
 # ----------------------- Tue Dec 18 17:48:35 2018 ------------------------#
-#' unloadAllPackages 
-#' 
+#' unloadAllPackages
+#'
 #' unloads all but the base packages.
 #' @export
 unloadAllPackages <- function() {
@@ -68,8 +73,8 @@ unloadAllPackages <- function() {
 }
 
 # ----------------------- Tue Dec 18 17:48:58 2018 ------------------------#
-#' Mode 
-#' 
+#' Mode
+#'
 #' Computes the mode of a numeric vector. R does not have a built in function for computing the mode (the most frequent value) in a vector of numeric values. This function (\emph{Note: Mode with a capital M}) returns the mode.
 #' @param v \code{(numeric)} a numeric vector
 #' @return \code{(numeric)} The mode as a numeric
@@ -86,7 +91,7 @@ Mode <- function(v) {
 
 # ----------------------- Tue Dec 18 16:48:05 2018 ------------------------#
 #' findna
-#' 
+#'
 #' Report summary of NA values and their Indices. Iterates over the columns of a data.frame or matrix and returns descriptive summary of NA values
 #' @param dat \code{(data.frame, matrix)} data.frame, vector or matrix object
 #' @return \code{(list)} object with the following values:
@@ -123,7 +128,7 @@ findna <- function(dat){
 
 # ----------------------- Tue Nov 20 08:29:21 2018 ------------------------#
 #' find_peaks
-#' 
+#'
 #' Find Peaks in a timeseries. Credit: \url{https://github.com/stas-g}
 #' @param x \code{(numeric)} A vector object
 #' @param m \code{(numeric)} A steepness of slope numeric as a threshold for calculating peaks. The larger the number the fewer the peaks meeting the criteria.
@@ -144,4 +149,37 @@ find_peaks <- function(x, m = 3){
   })
   pks <- unlist(pks)
   pks
+}
+
+# ----------------------- Mon Apr 08 16:49:54 2019 ------------------------#
+#' rleIndex
+#'
+#' Given an \code{\link[rle]{rle}} this function will return a dataframe of starts, ends, and indexes thereof of the run lengths.
+#' Credit: \url{https://stackoverflow.com/questions/43875716/find-start-and-end-positions-indices-of-runs-consecutive-values}
+#' @param x \code{(rle)} An rle object
+#' @return \item{(data.frame)}{ A data.frame with length, values, start and end indices.}
+#' @examples
+#' dat <- data.frame(y = rnorm(15,0,1),x = {rnorm(15,0,1) + rnorm(15,0,.02)})
+#' rleIndex(rle(abs(dat$x) > .5))
+#' @export
+rleIndex <- function(input_rle) {
+ out <- input_rle %>%
+    unclass() %>%
+    as.data.frame() %>%
+    dplyr::mutate(end = cumsum(lengths),
+           start = c(1, dplyr::lag(end)[-1] + 1)) %>%
+    dplyr::select(c(1,2,4,3))
+ return(out)
+}
+
+# ----------------------- Wed Jul 03 08:11:57 2019 ------------------------#
+#' toNum
+#'
+#' A simple function to convert financials retrieved from googlesheets as characters to numeric
+#'
+#' @param x \code{(character)} A character vector in the form "$12.23"
+#' @return \code{(numeric)} A numeric vector
+#' @export
+toNum <- function(x){
+  as.numeric(stringr::str_replace_all(x, "\\$|\\,",""))
 }

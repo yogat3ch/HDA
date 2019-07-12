@@ -17,7 +17,6 @@ License: file LICENSE.txt
 Encoding: UTF-8
 LazyData: true
 SystemRequirements: Java(TM) SE Runtime Environment (>= 1.8.0_201-b09) for rJava
-Additional_repositories: http://r-forge.r-project.org/
 Imports:
 		tidyverse (>= 1.2.1),
 		car (>= 3.0-0),
@@ -29,11 +28,7 @@ Imports:
 		RColorBrewer (>= 1.1-2),
 		ggpubr (>= 0.1.8),
 		ggplot2 (>= 2.2.1),
-		rJava (>= 0.9-10),
-		rpdfclown (>= 0.2-1),
-		pdftools (>= 1.8)
 Suggests:
 		effsize (>= 0.7.1),
 		testthat (>= 2.0.1)
-Remotes: url::http://R-Forge.R-project.org 
 RoxygenNote: 6.1.1

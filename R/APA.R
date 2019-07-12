@@ -155,12 +155,12 @@ apa <- function(tout, type = "html"){
     }
 
     # P Value Text
-    if (p.val %n% T) {p.val <- paste0(", ",p.txt(p.val))}else {p.val <- ""}
+    if (go("p.val")) {p.val <- paste0(", ",p.txt(p.val))}else {p.val <- ""}
     # DEgree Freedom Text
-    if (deg.fr %n% T) {
+    if (go("deg.fr")) {
       df.txt <- htmltools::HTML(paste0("<sub>",paste("(",paste0(deg.fr,collapse = ","),")",sep = ""),"</sub>"))}else {df.txt <- ""}
     # CI Text
-    if (ci %n% T) {
+    if (go("ci")) {
       if (ttype == "Cohen") {
         ci.txt <- paste0(", CI","<sub>(&alpha;=",{1 - tout[["conf.level"]]},")</sub>","[",paste0(tout[["conf.int"]] %>% unlist %>% sapply(round,2),collapse = ","),"]")
       } else {
@@ -180,14 +180,14 @@ apa <- function(tout, type = "html"){
         return(out)
       }
       # P Value Text
-      if (p.val %n% T) {
+      if (go("p.val")) {
         p.val <- paste0(", ",p.txt(p.val))}else {p.val <- ""}
       # DEgree Freedom Text
-      if (deg.fr %n% T) {
+      if (go("deg.fr")) {
         df.txt <- paste0("_{",paste("(",paste0(deg.fr,collapse = ","),")",sep = ""),"}")
         }else {df.txt <- ""}
       # CI Text
-      if (ci %n% T) {
+      if (go("ci")) {
         ci.txt <- paste(", CI[",paste0(tout[["conf.int"]] %>% unlist %>% sapply(round,2),collapse = ","),"]",sep = "")
         }else {ci.txt <- ""}
       # Out Text

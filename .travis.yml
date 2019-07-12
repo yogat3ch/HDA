@@ -14,11 +14,11 @@ before_install:
   - sudo apt-get install texlive
   - sudo apt-get install texlive-fonts-extra
   - sudo apt-get install libpoppler-cpp-dev
-  - Rscript -e "install.packages('rJava')"
-  - Rscript -e "install.packages( c('rpdfclown'), repos=c(rforge='http://r-forge.r-project.org'))"
+  #- Rscript -e "install.packages('rJava')"
+  #- Rscript -e "install.packages( c('rpdfclown'), repos=c(rforge='http://r-forge.r-project.org'))"
 cache: packages
 repos:
   CRAN: https://cran.r-project.org/
-  rforge: http://r-forge.r-project.org
+  #rforge: http://r-forge.r-project.org
 after_failure:
   - Rscript -e 'readLines("/home/travis/build/yogat3ch/HDA/HDA.Rcheck/00check.log")'
