@@ -1,8 +1,8 @@
 # ----------------------- Fri Jan 11 17:37:44 2019 ------------------------#
 #' go
 #'
-#' Tests if a value does not exist, is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE. Useful for conditional evaluation of a valid value for an object for further calculations or functions.
-#' @param x /code{(string)} The name of an object to test for it's existence
+#' Tests if a value or object does not exist, is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE. Useful for conditional evaluation of a valid value for an object for further calculations or functions.
+#' @param x \code{(string)} An object or the name of an object to test for it's non-NuLL, non-NA, non-length(0) existence
 #' @return \code{(boolean)} A TRUE indicates the object exists, is not NULL, NA or length 0. Otherwise false.
 #' @examples
 #' x <- {4/0}
@@ -16,9 +16,26 @@
 #' go("x")
 #' x <- numeric(0)
 #' go("x")
+#' x <- list()
+#' x$go <- 2
+#' go("x$go")
+#' go("x[['go']]")
+#' go(x[['go']])
 #' @export
 go <- function(x) {
-  out <- get0(x, envir = sys.parent(), inherits = F)
+  if (is.character(x)) {
+    if (stringr::str_detect(x, "\\$|\\[")) {
+      it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
+      # Get the initial object
+      object <- get0(it, envir = sys.parent(), inherits = F)
+      assign(it, object)
+      out <- eval(parse(text = x))
+    } else {
+    out <- get0(x, envir = sys.parent(), inherits = F)
+    }
+  } else {
+    out <- x
+  }
   if (length(out) == 0) F else if (is.null(out)) F else if (is.na(out)) F else T
 }
 

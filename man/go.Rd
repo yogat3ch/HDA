@@ -7,13 +7,13 @@
 go(x)
 }
 \arguments{
-\item{x}{/code{(string)} The name of an object to test for it's existence}
+\item{x}{\code{(string)} An object or the name of an object to test for it's non-NuLL, non-NA, non-length(0) existence}
 }
 \value{
 \code{(boolean)} A TRUE indicates the object exists, is not NULL, NA or length 0. Otherwise false.
 }
 \description{
-Tests if a value does not exist, is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE. Useful for conditional evaluation of a valid value for an object for further calculations or functions.
+Tests if a value or object does not exist, is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE. Useful for conditional evaluation of a valid value for an object for further calculations or functions.
 }
 \examples{
 x <- {4/0}
@@ -27,4 +27,9 @@ x <- NULL
 go("x")
 x <- numeric(0)
 go("x")
+x <- list()
+x$go <- 2
+go("x$go")
+go("x[['go']]")
+go(x[['go']])
 }
