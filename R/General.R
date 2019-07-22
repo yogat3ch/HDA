@@ -23,17 +23,18 @@
 #' go(x[['go']])
 #' @export
 go <- function(x) {
-  if (is.character(x)) {
-    if (stringr::str_detect(x, "\\$|\\[")) {
+  lgl.a <- try(is.character(x))
+  lgl.b <- try(length(x) > 0)
+  lgl.c <- try(stringr::str_detect(x, "\\$|\\["))
+  if (all(lgl.a, lgl.b, lgl.c)) {
       it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
       # Get the initial object
       object <- get0(it, envir = sys.parent(), inherits = F)
       assign(it, object)
       out <- eval(parse(text = x))
-    } else {
+    } else if (all(lgl.a & lgl.b)) {
     out <- get0(x, envir = sys.parent(), inherits = F)
-    }
-  } else {
+    } else {
     out <- x
   }
   if (length(out) == 0) F else if (is.null(out)) F else if (is.na(out)) F else T
