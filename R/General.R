@@ -35,7 +35,7 @@ go <- function(...) {
   })
   if(!lgl$exists) return(F)
   if (lgl$is_str | lgl$is_ind) {
-    message("Processing as string...")
+    #message("Processing as string...")
     it <- stringr::str_extract(..., "[[:alnum:]\\.\\_\\%\\-]+")
     # Get the initial object
     object <- get0(it, envir = sys.parent(), inherits = F)
@@ -50,7 +50,7 @@ go <- function(...) {
     }
     #message(paste0("out:",out))
   } else {
-    message("Processing as object...")
+    #message("Processing as object...")
     is_obj <- try(eval(..., envir = .GlobalEnv), silent = T)
     if (class(is_obj) == "try-error") return(F)
     if (length(...) == 0) return(F) else if (is.null(...)) return(F) else if (is.na(...)) return(F) else return(T)
