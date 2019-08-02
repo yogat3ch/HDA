@@ -43,7 +43,8 @@ go <- function(...) {
     lgl$ind_exists <- try(eval(parse(text = deparse(substitute(...)))))
     if (class(lgl$ind_exists) == "try-error") {return(F)}
     if (lgl$is_ind) {
-    out <- purrr::pluck(object, unlist(stringr::str_split(stringr::str_replace_all(..., "\\]\\]",""),"\\[\\[|\\$")[[1]][-1]))
+      accessors <- as.list(unlist(stringr::str_split(stringr::str_replace_all(..., "\\]\\]|\\'",""),"\\[\\[|\\$")[[1]][-1]))
+    out <- purrr::pluck(.x = object, !!!accessors)
     } else {
       out <- object
     }
