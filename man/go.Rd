@@ -4,7 +4,7 @@
 \alias{go}
 \title{go}
 \usage{
-go(x)
+go(...)
 }
 \arguments{
 \item{x}{\code{(string)} An object or the name of an object to test for it's non-NuLL, non-NA, non-length(0) existence}

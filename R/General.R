@@ -22,20 +22,37 @@
 #' go("x[['go']]")
 #' go(x[['go']])
 #' @export
-go <- function(x) {
-  lgl.a <- try(is.character(x))
-  lgl.b <- try(length(x) > 0)
-  lgl.c <- try(stringr::str_detect(x, "\\$|\\["))
-  if (all(lgl.a, lgl.b, lgl.c)) {
-      it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
-      # Get the initial object
-      object <- get0(it, envir = sys.parent(), inherits = F)
-      assign(it, object)
-      out <- eval(parse(text = x))
-    } else if (all(lgl.a & lgl.b)) {
-    out <- get0(x, envir = sys.parent(), inherits = F)
+go <- function(...) {
+  lgl <- list()
+  lgl$is_str <- tryCatch(grepl("^\\\"|\\'",deparse(substitute(...))), error = function(cond) {
+    return(F)
+  })
+  lgl$is_ind <- tryCatch(grepl("\\$|\\[",deparse(substitute(...))) & lgl$is_str, error = function(cond) {
+    return(F)
+  })
+  lgl$exists <- tryCatch(exists(stringr::str_extract(deparse(substitute(...)), "[[:alnum:]\\.\\_\\%\\-]+")), error = function(cond) {
+    return(F)
+  })
+  if(!lgl$exists) return(F)
+  if (lgl$is_str | lgl$is_ind) {
+    message("Processing as string...")
+    it <- stringr::str_extract(..., "[[:alnum:]\\.\\_\\%\\-]+")
+    # Get the initial object
+    object <- get0(it, envir = sys.parent(), inherits = F)
+    #print(ls())
+    lgl$ind_exists <- try(eval(parse(text = deparse(substitute(...)))))
+    if (class(lgl$ind_exists) == "try-error") {return(F)}
+    if (lgl$is_ind) {
+    out <- purrr::pluck(object, unlist(stringr::str_split(stringr::str_replace_all(..., "\\]\\]",""),"\\[\\[|\\$")[[1]][-1]))
     } else {
-    out <- x
+      out <- object
+    }
+    #message(paste0("out:",out))
+  } else {
+    message("Processing as object...")
+    is_obj <- try(eval(..., envir = .GlobalEnv), silent = T)
+    if (class(is_obj) == "try-error") return(F)
+    if (length(...) == 0) return(F) else if (is.null(...)) return(F) else if (is.na(...)) return(F) else return(T)
   }
   if (length(out) == 0) F else if (is.null(out)) F else if (is.na(out)) F else T
 }
