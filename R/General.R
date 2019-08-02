@@ -24,7 +24,7 @@
 #' @export
 go <- function(...) {
   lgl <- list()
-  lgl$is_str <- tryCatch(grepl("^\\\"|\\'",deparse(substitute(...))), error = function(cond) {
+  lgl$is_str <- tryCatch(grepl("^\\\"|^\\'",deparse(substitute(...))), error = function(cond) {
     return(F)
   })
   lgl$is_ind <- tryCatch(grepl("\\$|\\[",deparse(substitute(...))) & lgl$is_str, error = function(cond) {
