@@ -23,7 +23,7 @@
 #' go(x[['go']])
 #' @export
 go <- function(...) {
-  if (!exists("debug", mode = "logical", envir = .GlobalEnv)) debug <- F
+  if (!exists("debug", mode = "logical", envir = .GlobalEnv)) debug <- F else debug <- get0("debug", envir = .GlobalEnv)
   lgl <- list()
   lgl$is_str <- tryCatch(grepl("^\\\"|^\\'",deparse(substitute(...))), error = function(cond) {
     return(F)
