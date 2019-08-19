@@ -47,7 +47,7 @@ go <- function(x, env = parent.frame()) {
   lgl$exists <- tryCatch({
 
     x_nm <- stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+")
-    ex <- any(purrr::map_lgl(unique(sys.parents()), ~ any(stringr::str_detect(ls(sys.frame(.x), all.names = T), stringr::fixed(x_nm)))))
+    ex <- any(purrr::map_lgl(sys.frames(), ~ any(stringr::str_detect(ls(.x, all.names = T), stringr::fixed(x_nm)))))
 
     if (debug) message(paste0("Exists: ", ex))
     ex
