@@ -22,36 +22,39 @@
 #' go("x[['go']]")
 #' go(x[['go']])
 #' @export
-go <- function(...) {
+go <- function(x) {
   if (!exists("debug", mode = "logical", envir = .GlobalEnv)) debug <- F else debug <- get0("debug", envir = .GlobalEnv)
   lgl <- list()
-  lgl$is_str <- tryCatch(grepl("^\\\"|^\\'",deparse(substitute(...))), error = function(cond) {
+  lgl$is_str <- tryCatch(grepl("^\\\"|^\\'",x), error = function(cond) {
     return(F)
   })
-  lgl$is_filename <- tryCatch(grepl("\\.\\w{3,4}$",deparse(substitute(...))), error = function(cond) {
-    return(F)
+  lgl$is_filename <- list()
+  suppressWarnings({
+  lgl$is_filename[[1]] <- try(load(file = x), silent = T)
+  lgl$is_filename[[2]] <- try(read.csv(file = x), silent = T)
+  lgl$is_filename[[3]] <- try(readLines(x), silent = T)
   })
-  if(lgl$is_filename) {
+  if(any(sapply(lgl$is_filename, class) != "try-error")) {
     if (debug) message("Processing as filename")
     return(T)
   }
-  lgl$is_ind <- tryCatch(grepl("\\$|\\[",deparse(substitute(...))) & lgl$is_str, error = function(cond) {
+  lgl$is_ind <- tryCatch(grepl("\\$|\\[",deparse(substitute(x))) & lgl$is_str, error = function(cond) {
     return(F)
   })
-  lgl$exists <- tryCatch(exists(stringr::str_extract(deparse(substitute(...)), "[[:alnum:]\\.\\_\\%\\-]+")), error = function(cond) {
+  lgl$exists <- tryCatch(exists(stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+")), error = function(cond) {
     return(F)
   })
   if(!lgl$exists) return(F)
   if (lgl$is_str | lgl$is_ind) {
     if (debug) message("Processing as string...")
-    it <- stringr::str_extract(..., "[[:alnum:]\\.\\_\\%\\-]+")
+    it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
     # Get the initial object
     object <- get0(it, envir = sys.parent(), inherits = F)
     #print(ls())
-    lgl$ind_exists <- try(eval(parse(text = deparse(substitute(...)))))
+    lgl$ind_exists <- try(eval(parse(text = deparse(substitute(x)))))
     if (class(lgl$ind_exists) == "try-error") {return(F)}
     if (lgl$is_ind) {
-      accessors <- as.list(unlist(stringr::str_split(stringr::str_replace_all(..., "\\]\\]|\\'",""),"\\[\\[|\\$")[[1]][-1]))
+      accessors <- as.list(unlist(stringr::str_split(stringr::str_replace_all(x, "\\]\\]|\\'",""),"\\[\\[|\\$")[[1]][-1]))
     out <- purrr::pluck(.x = object, !!!accessors)
     } else {
       out <- object
@@ -59,9 +62,9 @@ go <- function(...) {
     if (debug) message(paste0("out:",out))
   } else {
     if (debug) message("Processing as object...")
-    is_obj <- try(eval(..., envir = .GlobalEnv), silent = T)
+    is_obj <- try(eval(x, envir = .GlobalEnv), silent = T)
     if (class(is_obj) == "try-error") return(F)
-    if (length(...) == 0) return(F) else if (is.null(...)) return(F) else if (is.na(...)) return(F) else return(T)
+    if (length(x) == 0) return(F) else if (is.null(x)) return(F) else if (is.na(x)) return(F) else return(T)
   }
   if (length(out) == 0) F else if (is.null(out)) F else if (is.na(out)) F else T
 }
