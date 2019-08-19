@@ -45,7 +45,22 @@ go <- function(x) {
     return(F)
   })
   lgl$exists <- tryCatch({
-    ex <- exists(stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+"))
+    where <- function(name, env = parent.frame()) {
+      if (identical(env, emptyenv())) {
+        # Base case
+        stop("Can't find ", name, call. = FALSE)
+
+      } else if (exists(name, envir = env, inherits = FALSE)) {
+        # Success case
+        env
+
+      } else {
+        # Recursive case
+        where(name, parent.env(env))
+
+      }
+    }
+    ex <- is.environment(where(stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+")))
     if (debug) message(paste0("Exists: ", ex))
     ex
     }, error = function(cond) {
