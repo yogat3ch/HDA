@@ -28,7 +28,7 @@ go <- function(x) {
     message("Debug: " ,debug)
     }
   lgl <- list()
-  lgl$is_str <- tryCatch(grepl("^\\\"|^\\'",x), error = function(cond) {
+  lgl$is_str <- tryCatch(grepl("^\\\"|^\\'", x), error = function(cond) {
     return(F)
   })
   lgl$is_filename <- list()
@@ -41,22 +41,29 @@ go <- function(x) {
     if (debug) message("Processing as filename")
     return(T)
   }
-  lgl$is_ind <- tryCatch(grepl("\\$|\\[",deparse(substitute(x))) & lgl$is_str, error = function(cond) {
+  lgl$is_ind <- tryCatch(grepl("\\$|\\[", x) & lgl$is_str, error = function(cond) {
     return(F)
   })
-  lgl$exists <- tryCatch(exists(stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+")), error = function(cond) {
+  lgl$exists <- tryCatch({
+    ex <- exists(stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+"))
+    if (debug) message(paste0("Exists: ", ex))
+    ex
+    }, error = function(cond) {
     return(F)
   })
   if(!lgl$exists) return(F)
-  if (lgl$is_str | lgl$is_ind) {
+  if (any(lgl$is_str, lgl$is_ind)) {
     if (debug) message("Processing as string...")
     it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
     # Get the initial object
     object <- get0(it, envir = sys.parent(), inherits = F)
     #print(ls())
     lgl$ind_exists <- try(eval(parse(text = deparse(substitute(x)))))
-    if (class(lgl$ind_exists) == "try-error") {return(F)}
+    if (class(lgl$ind_exists) == "try-error") {
+      return(F)
+      }
     if (lgl$is_ind) {
+      message("Processing as string of indexes")
       accessors <- as.list(unlist(stringr::str_split(stringr::str_replace_all(x, "\\]\\]|\\'",""),"\\[\\[|\\$")[[1]][-1]))
     out <- purrr::pluck(.x = object, !!!accessors)
     } else {
@@ -66,7 +73,7 @@ go <- function(x) {
   } else {
     if (debug) message("Processing as object...")
     is_obj <- try(eval(x, envir = .GlobalEnv), silent = T)
-    if (class(is_obj) == "try-error") return(F)
+    if (any(class(is_obj) == "try-error")) return(F)
     if (length(x) == 0) return(F) else if (is.null(x)) return(F) else if (is.na(x)) return(F) else return(T)
   }
   if (length(out) == 0) F else if (is.null(out)) F else if (is.na(out)) F else T
