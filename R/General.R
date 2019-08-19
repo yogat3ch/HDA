@@ -22,7 +22,7 @@
 #' go("x[['go']]")
 #' go(x[['go']])
 #' @export
-go <- function(x) {
+go <- function(x, env = parent.frame()) {
   if (!exists("debug", mode = "logical", envir = .GlobalEnv)) debug <- F else {
     debug <- get0("debug", envir = .GlobalEnv)
     message("Debug: " ,debug)
@@ -45,22 +45,10 @@ go <- function(x) {
     return(F)
   })
   lgl$exists <- tryCatch({
-    where <- function(name, env = parent.frame()) {
-      if (identical(env, emptyenv())) {
-        # Base case
-        stop("Can't find ", name, call. = FALSE)
 
-      } else if (exists(name, envir = env, inherits = FALSE)) {
-        # Success case
-        env
+    x_nm <- stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+")
+    ex <- any(purrr::map_lgl(unique(sys.parents()), ~ any(stringr::str_detect(ls(sys.frame(.x), all.names = T), stringr::fixed(x_nm)))))
 
-      } else {
-        # Recursive case
-        where(name, parent.env(env))
-
-      }
-    }
-    ex <- is.environment(where(stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+")))
     if (debug) message(paste0("Exists: ", ex))
     ex
     }, error = function(cond) {
