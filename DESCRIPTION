@@ -31,4 +31,4 @@ Imports:
 Suggests:
 		effsize (>= 0.7.1),
 		testthat (>= 2.0.1)
-RoxygenNote: 6.1.1
+RoxygenNote: 6.1.1.9000

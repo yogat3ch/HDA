@@ -27,6 +27,13 @@ go <- function(...) {
   lgl$is_str <- tryCatch(grepl("^\\\"|^\\'",deparse(substitute(...))), error = function(cond) {
     return(F)
   })
+  lgl$is_filename <- tryCatch(grepl("\\.\\w{3,4}$",deparse(substitute(...))), error = function(cond) {
+    return(F)
+  })
+  if(lgl$is_filename) {
+    if (debug) message("Processing as filename")
+    return(T)
+  }
   lgl$is_ind <- tryCatch(grepl("\\$|\\[",deparse(substitute(...))) & lgl$is_str, error = function(cond) {
     return(F)
   })
@@ -35,7 +42,7 @@ go <- function(...) {
   })
   if(!lgl$exists) return(F)
   if (lgl$is_str | lgl$is_ind) {
-    #message("Processing as string...")
+    if (debug) message("Processing as string...")
     it <- stringr::str_extract(..., "[[:alnum:]\\.\\_\\%\\-]+")
     # Get the initial object
     object <- get0(it, envir = sys.parent(), inherits = F)
@@ -48,9 +55,9 @@ go <- function(...) {
     } else {
       out <- object
     }
-    #message(paste0("out:",out))
+    if (debug) message(paste0("out:",out))
   } else {
-    #message("Processing as object...")
+    if (debug) message("Processing as object...")
     is_obj <- try(eval(..., envir = .GlobalEnv), silent = T)
     if (class(is_obj) == "try-error") return(F)
     if (length(...) == 0) return(F) else if (is.null(...)) return(F) else if (is.na(...)) return(F) else return(T)
