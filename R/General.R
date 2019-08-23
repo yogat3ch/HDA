@@ -26,7 +26,9 @@ go <- function(x, env = parent.frame()) {
   if (!exists("debug", mode = "logical", envir = .GlobalEnv)) debug <- F else {
     debug <- get0("debug", envir = .GlobalEnv)
     message("Debug: " ,debug)
-    }
+    message(paste0("Object: ",deparse(substitute(x))))
+  }
+  if (class(x) == "try-error") return(F)
   lgl <- list()
   lgl$is_str <- tryCatch(grepl("^\\\"|^\\'", x), error = function(cond) {
     return(F)
