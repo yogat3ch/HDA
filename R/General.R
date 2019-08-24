@@ -22,6 +22,7 @@
 #' go("x[['go']]")
 #' go(x[['go']])
 #' @export
+#' @importFrom magrittr %>%
 go <- function(x, env = parent.frame()) {
   if (!exists("debug", mode = "logical", envir = .GlobalEnv)) debug <- F else {
     debug <- get0("debug", envir = .GlobalEnv)
@@ -30,7 +31,7 @@ go <- function(x, env = parent.frame()) {
   }
   if (class(x) == "try-error") return(F)
   lgl <- list()
-  lgl$is_str <- tryCatch(grepl("^\\\"|^\\'", x), error = function(cond) {
+  lgl$is_str <- tryCatch(is.character(x) & nchar(x) > 0, error = function(cond) {
     return(F)
   })
   lgl$is_filename <- list()
@@ -49,7 +50,7 @@ go <- function(x, env = parent.frame()) {
   lgl$exists <- tryCatch({
 
     x_nm <- stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+")
-    ex <- any(purrr::map_lgl(sys.frames(), ~ any(stringr::str_detect(ls(.x, all.names = T), stringr::fixed(x_nm)))))
+    ex <- any(purrr::map_lgl(c(sys.frames(),env), ~ any(stringr::str_detect(ls(.x, all.names = T), stringr::fixed(x_nm)))))
 
     if (debug) message(paste0("Exists: ", ex))
     ex
@@ -61,7 +62,7 @@ go <- function(x, env = parent.frame()) {
     if (debug) message("Processing as string...")
     it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
     # Get the initial object
-    object <- get0(it, envir = sys.parent(), inherits = F)
+    object <- purrr::map(c(sys.frames(),env), ~ get0(it, envir = .x, inherits = F)) %>% purrr::keep(~ {!is.null(.x)}) %>% .[[1]]
     #print(ls())
     lgl$ind_exists <- try(eval(parse(text = deparse(substitute(x)))))
     if (class(lgl$ind_exists) == "try-error") {
@@ -70,14 +71,27 @@ go <- function(x, env = parent.frame()) {
     if (lgl$is_ind) {
       message("Processing as string of indexes")
       accessors <- as.list(unlist(stringr::str_split(stringr::str_replace_all(x, "\\]\\]|\\'",""),"\\[\\[|\\$")[[1]][-1]))
-    out <- purrr::pluck(.x = object, !!!accessors)
+      # If there are still single brackets indicating indexing into a data.frame or matrix
+      if (stringr::str_detect(accessors, "\\]")) {
+        # Get the object
+        ind_ob <- stringr::str_extract(accessors, "^[^\\[]+")
+        ind_ob <- ifelse(is.numeric(as.numeric(ind_ob)), as.numeric(ind_ob), ind_ob)
+        # Get the first index and determine if it's character or numeric
+        ind1 <- stringr::str_extract(accessors, "(?<=\\[)[^\\,]+")
+        # Get the 2nd index and determine if it's character or numeric
+        ind1 <- suppressWarnings(ifelse(is.numeric(as.numeric(ind1)) & !is.na(as.numeric(ind2)), as.numeric(ind1), ind1))
+        ind2 <- stringr::str_extract(accessors, "(?<=\\,)[^\\]]+(?=\\])")
+        ind2 <- suppressWarnings(ifelse(is.numeric(as.numeric(ind2)) & !is.na(as.numeric(ind2)), as.numeric(ind2), ind2))
+        accessors <- list(ind1,ind2)
+        }
+    out <- purrr::pluck(.x = object, ind_ob) %>% magrittr::extract(accessors[[2]]) %>% magrittr::extract(accessors[[1]],)
     } else {
       out <- object
     }
     if (debug) message(paste0("out:",out))
   } else {
     if (debug) message("Processing as object...")
-    is_obj <- try(eval(x, envir = .GlobalEnv), silent = T)
+    is_obj <- try(purrr::map(c(sys.frames(), env), ~ eval(x, envir = .x), silent = T)[[1]])
     if (any(class(is_obj) == "try-error")) return(F)
     if (length(x) == 0) return(F) else if (is.null(x)) return(F) else if (is.na(x)) return(F) else return(T)
   }
