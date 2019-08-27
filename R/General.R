@@ -84,7 +84,7 @@ go <- function(x, env = parent.frame()) {
         ind2 <- suppressWarnings(ifelse(is.numeric(as.numeric(ind2)) & !is.na(as.numeric(ind2)), as.numeric(ind2), ind2))
         accessors <- list(ind1,ind2)
         }
-    out <- purrr::pluck(.x = object, ind_ob) %>% magrittr::extract(accessors[[2]]) %>% magrittr::extract(accessors[[1]],)
+    out <- purrr::pluck(.x = object, ind_ob) %>% magrittr::extract(accessors[[1]], accessors[[2]])
     } else {
       out <- object
     }
