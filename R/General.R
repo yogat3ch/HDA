@@ -62,7 +62,14 @@ go <- function(x, env = parent.frame()) {
     if (debug) message("Processing as string...")
     it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
     # Get the initial object
-    object <- purrr::map(c(sys.frames(),env), ~ get0(it, envir = .x, inherits = F)) %>% purrr::keep(~ {!is.null(.x)}) %>% .[[1]]
+    it.env <- purrr::imap(c(sys.frames(),env), it = it, function(.x, .y, it) {
+      if (stringr::str_detect(it, ls(it, envir = .x)) %>% any) return(.x)
+      })
+    it.env <- purrr::compact(it.env)
+    if (!is.null(it.env) & is.environment(it.env[[1]])) {
+      object <- get0(it, envir = it.env[[1]], inherits = F)
+    } else object <- NULL
+
     #print(ls())
     lgl$ind_exists <- try(eval(parse(text = deparse(substitute(x)))))
     if (class(lgl$ind_exists) == "try-error") {
