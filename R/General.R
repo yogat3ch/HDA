@@ -66,8 +66,8 @@ go <- function(x, env = parent.frame()) {
       if (stringr::str_detect(it, ls(it, envir = .x)) %>% any) return(.x)
       })
     it.env <- purrr::compact(it.env)
-    if (!is.null(it.env) & is.environment(it.env[[1]])) {
-      object <- get0(it, envir = it.env[[1]], inherits = F)
+    if (!is.null(it.env) & any(purrr::map_lgl(it.env, ~ is.environment(.x)))) {
+      object <- get0(it, envir = it.env[[purrr::map_lgl(it.env, ~ is.environment(.x))]], inherits = F)
     } else object <- NULL
 
     #print(ls())
