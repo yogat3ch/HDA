@@ -24,9 +24,10 @@
 #' @export
 #' @importFrom magrittr %>%
 go <- function(x, env = parent.frame()) {
-  if (!exists("debug", mode = "logical", envir = .GlobalEnv)) debug <- F else {
-    debug <- get0("debug", envir = .GlobalEnv)
-    message("Debug: " ,debug)
+  if (!exists(".debug", mode = "logical", envir = .GlobalEnv) | !exists(".debug", mode = "logical", envir = env)) .debug <- F else {
+    .debug <- purrr::map(c(.GlobalEnv, env), ~ get0(".debug", mode = "logical", envir = .x))
+    if (any(.debug)) .debug <- T
+    message("Debug: " ,.debug)
     message(paste0("Object: ",deparse(substitute(x))))
   }
   if (class(x) == "try-error") return(F)
@@ -41,7 +42,7 @@ go <- function(x, env = parent.frame()) {
   lgl$is_filename[[3]] <- try(readLines(x), silent = T)
   })
   if(any(sapply(lgl$is_filename, class) != "try-error")) {
-    if (debug) message("Processing as filename")
+    if (.debug) message("Processing as filename")
     return(T)
   }
   lgl$is_ind <- tryCatch(grepl("\\$|\\[", x) & lgl$is_str, error = function(cond) {
@@ -52,22 +53,22 @@ go <- function(x, env = parent.frame()) {
     x_nm <- stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+")
     ex <- any(purrr::map_lgl(c(sys.frames(),env), ~ any(stringr::str_detect(ls(.x, all.names = T), stringr::fixed(x_nm)))))
 
-    if (debug) message(paste0("Exists: ", ex))
+    if (.debug) message(paste0("Exists: ", ex))
     ex
     }, error = function(cond) {
     return(F)
   })
   if(!lgl$exists) return(F)
   if (any(lgl$is_str, lgl$is_ind)) {
-    if (debug) message("Processing as string...")
+    if (.debug) message("Processing as string...")
     it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
     # Get the initial object
     it.env <- purrr::imap(c(sys.frames(),env), it = it, function(.x, .y, it) {
-      if (stringr::str_detect(it, ls(it, envir = .x)) %>% any) return(.x)
+      if (stringr::str_detect(it, ls(it, envir = .x, all.names = T)) %>% any) return(.x)
       })
     it.env <- purrr::compact(it.env)
     if (!is.null(it.env) & any(purrr::map_lgl(it.env, ~ is.environment(.x)))) {
-      object <- get0(it, envir = it.env[[purrr::map_lgl(it.env, ~ is.environment(.x))]], inherits = F)
+      object <- get0(it, envir = it.env[[which(purrr::map_lgl(it.env, ~ is.environment(.x)))[1]]], inherits = F)
     } else object <- NULL
 
     #print(ls())
@@ -95,9 +96,9 @@ go <- function(x, env = parent.frame()) {
     } else {
       out <- object
     }
-    if (debug) message(paste0("out:",out))
+    if (.debug) message(paste0("out:",out))
   } else {
-    if (debug) message("Processing as object...")
+    if (.debug) message("Processing as object...")
     is_obj <- try(purrr::map(c(sys.frames(), env), ~ eval(x, envir = .x), silent = T)[[1]])
     if (any(class(is_obj) == "try-error")) return(F)
     if (length(x) == 0) return(F) else if (is.null(x)) return(F) else if (is.na(x)) return(F) else return(T)
