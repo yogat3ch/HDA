@@ -24,12 +24,11 @@
 #' @export
 #' @importFrom magrittr %>%
 go <- function(x, env = parent.frame()) {
-  if (!exists(".debug", mode = "logical", envir = .GlobalEnv) | !exists(".debug", mode = "logical", envir = env)) .debug <- F else {
-    .debug <- purrr::map(c(.GlobalEnv, env), ~ get0(".debug", mode = "logical", envir = .x))
-    if (any(.debug)) .debug <- T
+    .debug <- purrr::map_lgl(c(.GlobalEnv, env), ~ get0(".debug", mode = "logical", envir = .x, ifnotfound = F))
+    if (any(.debug)) .debug <- T else .debug <- F
     message("Debug: " ,.debug)
     message(paste0("Object: ",deparse(substitute(x))))
-  }
+
   if (class(x) == "try-error") return(F)
   lgl <- list()
   lgl$is_str <- tryCatch(is.character(x) & nchar(x) > 0, error = function(cond) {
@@ -48,25 +47,22 @@ go <- function(x, env = parent.frame()) {
   lgl$is_ind <- tryCatch(grepl("\\$|\\[", x) & lgl$is_str, error = function(cond) {
     return(F)
   })
-  lgl$exists <- tryCatch({
-
+  lgl$exists <- try({
     x_nm <- stringr::str_extract(deparse(substitute(x)), "[[:alnum:]\\.\\_\\%\\-]+")
     ex <- any(purrr::map_lgl(c(sys.frames(),env), ~ any(stringr::str_detect(ls(.x, all.names = T), stringr::fixed(x_nm)))))
-
-    if (.debug) message(paste0("Exists: ", ex))
     ex
-    }, error = function(cond) {
-    return(F)
-  })
-  if(!lgl$exists) return(F)
+    })
+  if (.debug) message(paste0("Exists: ", lgl$exists))
+  if(class(lgl$exists) == "try-error") return(F)
   if (any(lgl$is_str, lgl$is_ind)) {
     if (.debug) message("Processing as string...")
     it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
     # Get the initial object
     it.env <- purrr::imap(c(sys.frames(),env), it = it, function(.x, .y, it) {
-      if (stringr::str_detect(it, ls(it, envir = .x, all.names = T)) %>% any) return(.x)
+      if (stringr::str_detect(ls(envir = .x, all.names = T), stringr::fixed(it)) %>% any) return(.x)
       })
     it.env <- purrr::compact(it.env)
+    if (.debug) message(paste0(it.env))
     if (!is.null(it.env) & any(purrr::map_lgl(it.env, ~ is.environment(.x)))) {
       object <- get0(it, envir = it.env[[which(purrr::map_lgl(it.env, ~ is.environment(.x)))[1]]], inherits = F)
     } else object <- NULL
