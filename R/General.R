@@ -25,10 +25,11 @@
 #' @importFrom magrittr %>%
 go <- function(x, env = parent.frame()) {
     .debug <- purrr::map_lgl(c(.GlobalEnv, env), ~ get0(".debug", mode = "logical", envir = .x, ifnotfound = F))
-    if (any(.debug)) .debug <- T else .debug <- F
+    if (any(.debug)) {
+      .debug <- T
     message("Debug: " ,.debug)
     message(paste0("Object: ",deparse(substitute(x))))
-
+    } else .debug <- F
   if (class(x) == "try-error") return(F)
   lgl <- list()
   lgl$is_str <- tryCatch(is.character(x) & nchar(x) > 0, error = function(cond) {
