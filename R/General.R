@@ -29,6 +29,7 @@ go <- function(x, env = parent.frame()) {
       .debug <- T
     message("Debug: " ,.debug)
     message(paste0("Object: ",deparse(substitute(x))))
+    message(paste0("Supplied Environment Contains: ",paste0(ls(envir = env, all.names = T), collapse = ", ")))
     } else .debug <- F
   if (class(x) == "try-error") return(F)
   lgl <- list()
@@ -63,9 +64,16 @@ go <- function(x, env = parent.frame()) {
       if (stringr::str_detect(ls(envir = .x, all.names = T), stringr::fixed(it)) %>% any) return(.x)
       })
     it.env <- purrr::compact(it.env)
-    if (.debug) message(paste0(it.env))
     if (!is.null(it.env) & any(purrr::map_lgl(it.env, ~ is.environment(.x)))) {
       object <- get0(it, envir = it.env[[which(purrr::map_lgl(it.env, ~ is.environment(.x)))[1]]], inherits = F)
+      if (is.null(object) & length(it.env) > 1) {
+        i <- 2
+        while (i <= length(it.env) & is.null(object)) {
+          object <- get0(it, envir = it.env[[which(purrr::map_lgl(it.env, ~ is.environment(.x)))[i]]], inherits = F)
+          i <- i + 1
+        }
+      }
+      if (is.environment(object)) return(T)
     } else object <- NULL
 
     #print(ls())
@@ -100,7 +108,7 @@ go <- function(x, env = parent.frame()) {
     if (any(class(is_obj) == "try-error")) return(F)
     if (length(x) == 0) return(F) else if (is.null(x)) return(F) else if (is.na(x)) return(F) else return(T)
   }
-  if (length(out) == 0) F else if (is.null(out)) F else if (is.na(out)) F else T
+  if (is.environment(out)) T else if (length(out) == 0) F else if (is.null(out)) F else if (is.na(out)) F else T
 }
 
 # ----------------------- Fri Jan 11 18:00:33 2019 ------------------------#
