@@ -3,6 +3,7 @@
 #'
 #' Tests if a value or object does not exist, is length 0, NULL, or NA and returns FALSE if it is, otherwise returns TRUE. Useful for conditional evaluation of a valid value for an object for further calculations or functions.
 #' @param x \code{(string)} An object or the name of an object to test for it's non-NuLL, non-NA, non-length(0) existence
+#' @param env \code{(environment)} An enviroment to search for the object, defaults to parent frame
 #' @return \code{(boolean)} A TRUE indicates the object exists, is not NULL, NA or length 0. Otherwise false.
 #' @examples
 #' x <- {4/0}
@@ -21,6 +22,12 @@
 #' go("x$go")
 #' go("x[['go']]")
 #' go(x[['go']])
+#' df <- data.frame(a = c(1,2), b = c(3,4))
+#' go("df[2,'a']")
+#' df[2,'a'] <- NA
+#' x$df <- df
+#' go("x[['df']][2, 'a']")
+#' go("x[['df']][2, 'b']")
 #' @export
 #' @importFrom magrittr %>%
 go <- function(x, env = parent.frame()) {
@@ -55,27 +62,31 @@ go <- function(x, env = parent.frame()) {
     ex
     })
   if (.debug) message(paste0("Exists: ", lgl$exists))
-  if(class(lgl$exists) == "try-error") return(F)
+  if (class(lgl$exists) == "try-error") return(F)
   if (any(lgl$is_str, lgl$is_ind)) {
     if (.debug) message("Processing as string...")
     it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
     # Get the initial object
-    it.env <- purrr::imap(c(sys.frames(),env), it = it, function(.x, .y, it) {
-      if (stringr::str_detect(ls(envir = .x, all.names = T), stringr::fixed(it)) %>% any) return(.x)
-      })
-    it.env <- purrr::compact(it.env)
-    if (!is.null(it.env) & any(purrr::map_lgl(it.env, ~ is.environment(.x)))) {
-      object <- get0(it, envir = it.env[[which(purrr::map_lgl(it.env, ~ is.environment(.x)))[1]]], inherits = F)
-      if (is.null(object) & length(it.env) > 1) {
-        i <- 2
-        while (i <= length(it.env) & is.null(object)) {
-          object <- get0(it, envir = it.env[[which(purrr::map_lgl(it.env, ~ is.environment(.x)))[i]]], inherits = F)
-          i <- i + 1
-        }
-      }
-      if (is.environment(object)) return(T)
-    } else object <- NULL
+    object <- get0(it, envir = env, inherits = T)
+    # it.env <- purrr::imap(c(env,sys.frames()), it = it, function(.x, .y, it) {
+    #   if (stringr::str_detect(ls(envir = .x, all.names = T), stringr::fixed(it)) %>% any) return(.x)
+    #   })
+    # it.env <- purrr::compact(it.env)
+    # if (!is.null(it.env) & any(purrr::map_lgl(it.env, ~ is.environment(.x)))) {
+    #   object <- get0(it, envir = it.env[[which(purrr::map_lgl(it.env, ~ is.environment(.x)))[1]]], inherits = F)
+    #   if (is.null(object) & length(it.env) > 1) {
+    #     i <- 2
+    #     while (i <= length(it.env) & is.null(object)) {
+    #       object <- get0(it, envir = it.env[[which(purrr::map_lgl(it.env, ~ is.environment(.x)))[i]]], inherits = F)
+    #       i <- i + 1
+    #     }
 
+
+
+  if (is.environment(object)) {
+    message("Object is environment")
+    return(T)
+  }
     #print(ls())
     lgl$ind_exists <- try(eval(parse(text = deparse(substitute(x)))))
     if (class(lgl$ind_exists) == "try-error") {
@@ -83,32 +94,39 @@ go <- function(x, env = parent.frame()) {
       }
     if (lgl$is_ind) {
       message("Processing as string of indexes")
-      accessors <- as.list(unlist(stringr::str_split(stringr::str_replace_all(x, "\\]\\]|\\'",""),"\\[\\[|\\$")[[1]][-1]))
+      .accessors <- as.list(unlist(stringr::str_split(stringr::str_replace_all(x, "\\'|\\s",""),"\\[\\[|\\]\\]|\\$")[[1]] %>% purrr::keep(~ nchar(.x) > 0)))
+      # If there are non-single bracket indexes
+      .accessors_ind <- c(.accessors[!stringr::str_detect(.accessors, "\\]{1}(?!\\])")], stringr::str_extract_all(.accessors, "[[:alnum:]\\.\\_\\%\\-]+(?=\\[)") %>% unlist) %>% stringr::str_replace(it, "") %>% purrr::keep(~ nchar(.x) > 0) %>% unique
+      if (length(.accessors_ind > 0)) {
+      .ind_ob <- stringr::str_extract(.accessors_ind, "^[^\\[]+")
+      .ind_ob <- suppressWarnings(ifelse(is.numeric(as.numeric(.ind_ob)) & !is.na(as.numeric(.ind_ob)), as.numeric(.ind_ob), .ind_ob))
+      out <- object <- purrr::pluck(.x = object, .ind_ob)
+      }
+      # If there are single bracket indexes
+      .accessors_sb <- .accessors[stringr::str_which(.accessors, "\\]{1}(?!\\])")]
       # If there are still single brackets indicating indexing into a data.frame or matrix
-      if (stringr::str_detect(accessors, "\\]")) {
-        # Get the object
-        ind_ob <- stringr::str_extract(accessors, "^[^\\[]+")
-        ind_ob <- ifelse(is.numeric(as.numeric(ind_ob)), as.numeric(ind_ob), ind_ob)
+      if (length(.accessors_sb) > 0) {
         # Get the first index and determine if it's character or numeric
-        ind1 <- stringr::str_extract(accessors, "(?<=\\[)[^\\,]+")
+        .ind1 <- stringr::str_extract(.accessors, "(?<=\\[)[^\\,]+") %>% purrr::keep(~ !is.na(.x))
         # Get the 2nd index and determine if it's character or numeric
-        ind1 <- suppressWarnings(ifelse(is.numeric(as.numeric(ind1)) & !is.na(as.numeric(ind2)), as.numeric(ind1), ind1))
-        ind2 <- stringr::str_extract(accessors, "(?<=\\,)[^\\]]+(?=\\])")
-        ind2 <- suppressWarnings(ifelse(is.numeric(as.numeric(ind2)) & !is.na(as.numeric(ind2)), as.numeric(ind2), ind2))
-        accessors <- list(ind1,ind2)
-        }
-    out <- purrr::pluck(.x = object, ind_ob) %>% magrittr::extract(accessors[[1]], accessors[[2]])
+        .ind1 <- suppressWarnings(ifelse(is.numeric(as.numeric(.ind1)) & !is.na(as.numeric(.ind1)), as.numeric(.ind1), .ind1))
+        .ind2 <- stringr::str_extract(.accessors, "(?<=\\,)[^\\]]+(?=\\])") %>% purrr::keep(~ !is.na(.x))
+        .ind2 <- suppressWarnings(ifelse(is.numeric(as.numeric(.ind2)) & !is.na(as.numeric(.ind2)), as.numeric(.ind2), .ind2))
+
+        out <- object %>% magrittr::extract(.ind1, .ind2)
+      }
+
     } else {
       out <- object
     }
-    if (.debug) message(paste0("out:",out))
+    if (.debug) message(paste0("class of out:",class(object)))
   } else {
     if (.debug) message("Processing as object...")
     is_obj <- try(purrr::map(c(sys.frames(), env), ~ eval(x, envir = .x), silent = T)[[1]])
     if (any(class(is_obj) == "try-error")) return(F)
     if (length(x) == 0) return(F) else if (is.null(x)) return(F) else if (is.na(x)) return(F) else return(T)
   }
-  if (is.environment(out)) T else if (length(out) == 0) F else if (is.null(out)) F else if (is.na(out)) F else T
+  if (length(out) == 0) F else if (is.null(out)) F else if (is.na(out)) F else T
 }
 
 # ----------------------- Fri Jan 11 18:00:33 2019 ------------------------#

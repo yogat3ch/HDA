@@ -4,10 +4,12 @@
 \alias{go}
 \title{go}
 \usage{
-go(...)
+go(x, env = parent.frame())
 }
 \arguments{
 \item{x}{\code{(string)} An object or the name of an object to test for it's non-NuLL, non-NA, non-length(0) existence}
+
+\item{env}{\code{(environment)} An enviroment to search for the object, defaults to parent frame}
 }
 \value{
 \code{(boolean)} A TRUE indicates the object exists, is not NULL, NA or length 0. Otherwise false.
@@ -32,4 +34,10 @@ x$go <- 2
 go("x$go")
 go("x[['go']]")
 go(x[['go']])
+df <- data.frame(a = c(1,2), b = c(3,4))
+go("df[2,'a']")
+df[2,'a'] <- NA
+x$df <- df
+go("x[['df']][2, 'a']")
+go("x[['df']][2, 'b']")
 }
