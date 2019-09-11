@@ -40,9 +40,9 @@ go <- function(x, env = parent.frame()) {
     } else .debug <- F
   if (class(x) == "try-error") return(F)
   lgl <- list()
-  lgl$is_str <- tryCatch(is.character(x) & nchar(x) > 0, error = function(cond) {
-    return(F)
-  })
+  lgl$is_str <- vector()
+  lgl$is_str[1] <- is.character(x)
+  lgl$is_str[2] <- ifelse(is.character(x), nzchar(x), F)
   lgl$is_filename <- list()
   suppressWarnings({
   lgl$is_filename[[1]] <- try(load(file = x), silent = T)
@@ -53,7 +53,7 @@ go <- function(x, env = parent.frame()) {
     if (.debug) message("Processing as filename")
     return(T)
   }
-  lgl$is_ind <- tryCatch(grepl("\\$|\\[", x) & lgl$is_str, error = function(cond) {
+  lgl$is_ind <- tryCatch(ifelse(all(lgl$is_str), grepl("\\$|\\[", x), F), error = function(cond) {
     return(F)
   })
   lgl$exists <- try({
@@ -63,7 +63,7 @@ go <- function(x, env = parent.frame()) {
     })
   if (.debug) message(paste0("Exists: ", lgl$exists))
   if (class(lgl$exists) == "try-error") return(F)
-  if (any(lgl$is_str, lgl$is_ind)) {
+  if (any(all(lgl$is_str), lgl$is_ind)) {
     if (.debug) message("Processing as string...")
     it <- stringr::str_extract(x, "[[:alnum:]\\.\\_\\%\\-]+")
     # Get the initial object
